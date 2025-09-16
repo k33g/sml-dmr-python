@@ -1,0 +1,4 @@
+litellm==1.76.1
+python-dotenv==1.1.1
+numpy==1.26.4
+#openai

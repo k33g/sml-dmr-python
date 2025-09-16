@@ -1,0 +1,36 @@
+services:
+  small-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #command: python main.py
+    stdin_open: true   # docker run -i
+    tty: true          # docker run -t
+    restart: unless-stopped    
+    models:
+      chat-model:
+        endpoint_var: MODEL_BASE_URL
+        model_var: MODEL_ID
+      embedding-model:
+        endpoint_var: MODEL_BASE_URL
+        model_var: EMBEDDING_MODEL        
+
+# docker conmpose up
+# docker exec -it $(docker compose ps -q small-bot) /bin/bash
+
+
+models:
+  chat-model:
+    #model: ai/qwen2.5:0.5B-F16
+    #model: ai/qwen2.5:1.5B-F16
+    model: hf.co/menlo/jan-nano-gguf:q4_k_m
+    runtime_flags:
+      - "--temp"
+      - "0.0"
+    
+  embedding-model:
+    #model: ai/granite-embedding-multilingual:latest
+    model: ai/mxbai-embed-large:latest 
+# docker compose up --no-log-prefix
+# docker compose up --no-log-prefix --build
+
